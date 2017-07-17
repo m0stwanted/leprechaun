@@ -1,0 +1,1 @@
+This directory contains integration tests for Revolut application.

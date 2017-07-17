@@ -1,0 +1,10 @@
+package pro.sholokhov.server.exceptions;
+
+public class ResourceNotFoundException extends RuntimeException {
+
+    public ResourceNotFoundException() {}
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+
+}
