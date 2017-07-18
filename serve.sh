@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-java -jar target/revolut-app.jar
+java -jar target/leprecon-server.jar

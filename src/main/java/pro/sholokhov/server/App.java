@@ -40,7 +40,7 @@ public class App {
         .register(registry -> registry.add(ErrorHandler.class))
         .prefix(config.getProperty(API_PREFIX.val()), apiChain -> apiChain
           .get("help", HelpHandler.class)
-          .prefix("user", a -> a
+          .prefix("account", a -> a
             .post(AccountHandler.class)
             .get("/:id", AccountHandler.class)
           )

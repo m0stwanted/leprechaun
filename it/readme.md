@@ -1,1 +1,1 @@
-This directory contains integration tests for Revolut application.
+This directory contains integration tests for Leprecon application.
