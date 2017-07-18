@@ -32,4 +32,8 @@ public class AccountServiceImpl implements AccountService {
     return storage.get(accountId);
   }
 
+  @Override
+  public Optional<Account> remove(Long uid) {
+    return storage.remove(uid);
+  }
 }

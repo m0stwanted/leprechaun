@@ -14,4 +14,6 @@ public interface AccountService {
 
   Optional<Account> findById(Long accountId);
 
+  Optional<Account> remove(Long uid);
+
 }

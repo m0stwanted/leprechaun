@@ -25,9 +25,9 @@ public class InMemoryStorage<K, V> implements KVStorage<K, V> {
   }
 
   @Override
-  public void remove(K key) {
+  public Optional<V> remove(K key) {
     Objects.requireNonNull(key);
-    repo.remove(key);
+    return Optional.ofNullable(repo.remove(key));
   }
 
 }

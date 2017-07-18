@@ -42,7 +42,7 @@ public class App {
           .get("help", HelpHandler.class)
           .prefix("account", a -> a
             .post(AccountHandler.class)
-            .get("/:id", AccountHandler.class)
+            .path("/:id", AccountHandler.class)
           )
           .prefix("transaction", a -> a
             .post(TransactionHandler.class)

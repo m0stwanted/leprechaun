@@ -17,6 +17,7 @@
     <lombok.version>1.16.18</lombok.version>
     <slf4j.version>1.7.21</slf4j.version>
     <log4j.version>1.2.16</log4j.version>
+    <commonslang3.version>3.6</commonslang3.version>
   </properties>
 
   <dependencies>
@@ -37,6 +38,13 @@
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>2.9.9</version>
+    </dependency>
+
+    <!-- commons -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commonslang3.version}</version>
     </dependency>
 
     <!-- logger -->

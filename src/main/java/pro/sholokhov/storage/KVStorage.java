@@ -8,6 +8,6 @@ public interface KVStorage<K, V> {
 
   void put(K key, V value);
 
-  void remove(K key);
+  Optional<V> remove(K key);
 
 }
