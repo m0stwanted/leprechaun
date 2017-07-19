@@ -46,7 +46,7 @@ public class App {
           )
           .prefix("transaction", a -> a
             .post(TransactionHandler.class)
-            .get("/:id", TransactionHandler.class)
+            .path("/:id", TransactionHandler.class)
           )
         );
       })

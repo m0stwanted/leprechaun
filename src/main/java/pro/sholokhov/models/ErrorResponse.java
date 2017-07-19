@@ -11,10 +11,6 @@ public class ErrorResponse {
         return httpStatus;
     }
 
-    public void setHttpStatus(Integer httpStatus) {
-        this.httpStatus = httpStatus;
-    }
-
     public void setHttpStatus(ErrorHandler.HttpErrorCode httpStatus) {
         this.httpStatus = httpStatus.getCode();
     }

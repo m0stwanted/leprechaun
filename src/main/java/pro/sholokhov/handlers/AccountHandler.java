@@ -1,7 +1,5 @@
 package pro.sholokhov.handlers;
 
-import static ratpack.jackson.Jackson.json;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -12,6 +10,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pro.sholokhov.models.Account;
+import pro.sholokhov.server.response.AbstractResponse;
 import pro.sholokhov.services.AccountService;
 import ratpack.exec.Promise;
 import ratpack.handling.Context;
@@ -19,9 +18,10 @@ import ratpack.handling.Handler;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+
+import static ratpack.jackson.Jackson.json;
 
 @Singleton
 public class AccountHandler implements Handler {
@@ -30,43 +30,15 @@ public class AccountHandler implements Handler {
   private final static ObjectMapper mapper = new ObjectMapper();
   private final static ObjectReader parser = mapper.readerFor(Map.class);
 
+  // GC-optimized common responses
+  private final static AccountResponse accountNotExists =
+    new AccountResponse(false, "Account doesn't exists");
+
   private AccountService accountService;
 
   @Inject
   public AccountHandler(AccountService accountService) {
     this.accountService = accountService;
-  }
-
-  //
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  static class AccountResponse {
-    private Account account;
-    private Boolean success;
-    private String message;
-
-    AccountResponse(Account account, Boolean success, String message) {
-      this.account = account;
-      this.success = success;
-      this.message = message;
-    }
-
-    AccountResponse(Boolean success, String message) {
-      this.success = success;
-      this.message = message;
-    }
-
-    public Account getAccount() {
-      return account;
-    }
-
-    public Boolean getSuccess() {
-      return success;
-    }
-
-    public String getMessage() {
-      return message;
-    }
   }
 
   //
@@ -80,17 +52,18 @@ public class AccountHandler implements Handler {
       })
       .get(() -> {
         withAccountId(context, (accId) -> {
-          Optional<Account> acc = accountService.findById(accId);
-          AccountResponse response = acc.map(account -> new AccountResponse(account, true, "ok"))
-              .orElseGet(() -> new AccountResponse(false, "Account doesn't exists"));
+          AccountResponse response = accountService.findById(accId)
+            .filter(Account::isActive)
+            .map(a -> new AccountResponse(a, true, "Ok"))
+            .orElse(accountNotExists);
           context.render(json(response));
         });
       })
       .delete(() -> {
         withAccountId(context, (accId) -> {
-          Optional<Account> removed = accountService.remove(accId);
-          AccountResponse response = removed.map(a -> new AccountResponse(a, true, "removed"))
-              .orElseGet(() -> new AccountResponse(false, "Account doesn't exists"));
+          AccountResponse response = accountService.remove(accId)
+            .map(a -> new AccountResponse(a, true, "Account removed"))
+            .orElse(accountNotExists);
           context.render(json(response));
         });
       })
@@ -122,10 +95,30 @@ public class AccountHandler implements Handler {
     if (NumberUtils.isCreatable(accountId)) {
       onArgValid.accept(Long.valueOf(accountId));
     } else {
-      ctx.render(json(
-        new AccountResponse(false, "Invalid accountId: " + accountId)
-      ));
+      ctx.render(json(new AccountResponse(false, "Invalid accountId: " + accountId)));
     }
+  }
+
+  //  simple response class which contains account request results
+  //
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  static class AccountResponse extends AbstractResponse {
+
+    private Account account;
+
+    AccountResponse(Account account, Boolean success, String message) {
+      super(success, message);
+      this.account = account;
+    }
+
+    AccountResponse(Boolean success, String message) {
+      super(success, message);
+    }
+
+    public Account getAccount() {
+      return account;
+    }
+
   }
 
 }

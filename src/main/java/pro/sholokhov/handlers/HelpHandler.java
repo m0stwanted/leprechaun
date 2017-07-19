@@ -23,6 +23,11 @@ public class HelpHandler implements Handler, Service {
   private FileSystem fs = null;
   private Path path = null;
 
+  private static boolean isRunningInJar() {
+    File runningFile = new File(App.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+    return runningFile.isFile();
+  }
+
   @Override
   public void onStart(StartEvent event) throws Exception {
     URI uri = this.getClass().getResource("/readme.md").toURI();
@@ -46,10 +51,5 @@ public class HelpHandler implements Handler, Service {
   @Override
   public void handle(Context ctx) throws Exception {
     ctx.getResponse().sendFile(path);
-  }
-
-  private static boolean isRunningInJar() {
-    File runningFile = new File(App.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-    return runningFile.isFile();
   }
 }

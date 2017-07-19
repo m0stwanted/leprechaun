@@ -10,10 +10,12 @@ import java.util.Optional;
 @ImplementedBy(AccountServiceImpl.class)
 public interface AccountService {
 
-  Promise<Account> create(String name, Double startBalance) throws IllegalArgumentException;
+  Promise<Account> create(String name, Double startBalance);
 
   Optional<Account> findById(Long accountId);
 
-  Optional<Account> remove(Long uid);
+  Optional<Account> remove(Long accountId);
+
+  Boolean isAccountActive(Long accountId);
 
 }

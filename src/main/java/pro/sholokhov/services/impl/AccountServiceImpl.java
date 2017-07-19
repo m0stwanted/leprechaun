@@ -18,7 +18,7 @@ public class AccountServiceImpl implements AccountService {
   private final KVStorage<Long, Account> storage = new InMemoryStorage<>();
 
   @Override
-  public Promise<Account> create(String name, Double startBalance) throws IllegalArgumentException {
+  public Promise<Account> create(String name, Double startBalance) {
     return Blocking.get(() -> {
       long id = nextId.incrementAndGet();
       Account acc = new Account(id, name, startBalance);
@@ -33,7 +33,19 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public Optional<Account> remove(Long uid) {
-    return storage.remove(uid);
+  public Optional<Account> remove(Long accountId) {
+    Optional<Account> opt = storage.get(accountId);
+    opt.ifPresent(Account::deactivate);
+    return opt;
+  }
+
+  @Override
+  public Boolean isAccountActive(Long accountId) {
+    Optional<Account> account = storage.get(accountId);
+    if (account.isPresent()) {
+      Account acc = account.get();
+      return acc.isActive();
+    }
+    return false;
   }
 }

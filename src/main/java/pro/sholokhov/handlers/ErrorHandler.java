@@ -67,7 +67,6 @@ public class ErrorHandler implements ServerErrorHandler {
         INTERNAL_SERVER_ERROR(500),
         UNKNOWN(-1);
 
-        private final int code;
         private static HashMap<Integer, HttpErrorCode> lookup = new HashMap<>();
 
         static {
@@ -76,17 +75,19 @@ public class ErrorHandler implements ServerErrorHandler {
             }
         }
 
+        private final int code;
+
         HttpErrorCode(int code) {
             this.code = code;
-        }
-
-        public int getCode() {
-            return code;
         }
 
         public static HttpErrorCode getByCode(int code) {
             HttpErrorCode type = lookup.get(code);
             return type != null ? type : UNKNOWN;
+        }
+
+        public int getCode() {
+            return code;
         }
     }
 }
