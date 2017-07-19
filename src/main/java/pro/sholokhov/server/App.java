@@ -10,6 +10,7 @@ import pro.sholokhov.config.Configuration;
 import pro.sholokhov.handlers.AccountHandler;
 import pro.sholokhov.handlers.ErrorHandler;
 import pro.sholokhov.handlers.HelpHandler;
+import pro.sholokhov.handlers.SearchHandler;
 import pro.sholokhov.handlers.TransactionHandler;
 import pro.sholokhov.services.AccountService;
 import pro.sholokhov.services.TransactionService;
@@ -47,6 +48,9 @@ public class App {
           .prefix("transaction", a -> a
             .post(TransactionHandler.class)
             .path("/:id", TransactionHandler.class)
+          )
+          .prefix("search", a -> a
+            .get(SearchHandler.class)
           )
         );
       })

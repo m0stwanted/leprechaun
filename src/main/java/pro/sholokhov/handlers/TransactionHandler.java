@@ -54,12 +54,10 @@ public class TransactionHandler implements Handler {
           Double amount = Double.valueOf(params.get("amount"));
           return transactionService.create(from, to, amount);
         })
+        .onError(e -> context.render(json(new TransactionResponse(false, e.getMessage()))))
         .then(t -> context.render(json(new TransactionResponse(t, true, "Transaction created"))));
       })
       .get(() -> {
-
-        // todo: filter handler
-
         withTransactionId(context, (trId) -> {
           TransactionResponse response = transactionService.findById(trId)
             .map(this::enrichTransaction)
@@ -108,7 +106,7 @@ public class TransactionHandler implements Handler {
   private Map<String, String> parseParams(String from, String to, String amount) throws IllegalArgumentException {
     Map<String, String> params = new HashMap<>();
 
-    // todo: it could be extended to use custom or external validators with preconfigured rules
+    // it could be extended to use custom or external validators with pre configured rules
     //
     if (NumberUtils.isCreatable(from) && accountService.isAccountActive(Long.valueOf(from))) {
       params.put("from", from);
