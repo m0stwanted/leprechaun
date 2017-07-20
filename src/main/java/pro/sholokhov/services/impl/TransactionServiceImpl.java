@@ -45,10 +45,7 @@ public class TransactionServiceImpl implements TransactionService {
     return storage.get(transactionId);
   }
 
-  @Override
-  public Optional<List<Transaction>> filter() {
-    return Optional.empty();
-  }
+  //
 
   private Transaction doTransfer(Account from, Account to, Double amount) throws IllegalStateException  {
     BigDecimal charge = new BigDecimal(amount);
@@ -59,6 +56,8 @@ public class TransactionServiceImpl implements TransactionService {
           from.updateBalance(charge.negate());
           to.updateBalance(charge);
           Transaction t = new Transaction(tid, from.getId(), to.getId(), amount);
+          from.addTransaction(t);
+          to.addTransaction(t);
           storage.put(tid, t);
           return t;
         } else {

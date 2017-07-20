@@ -2,6 +2,7 @@ package pro.sholokhov.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -26,7 +27,6 @@ import static ratpack.jackson.Jackson.json;
 @Singleton
 public class TransactionHandler implements Handler {
 
-  private final static Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
   private final static ObjectMapper mapper = new ObjectMapper();
   private final static ObjectReader parser = mapper.readerFor(Map.class);
 

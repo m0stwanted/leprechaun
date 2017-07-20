@@ -2,7 +2,6 @@ package pro.sholokhov.models.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import pro.sholokhov.models.domain.Transaction;
-import pro.sholokhov.server.response.AbstractResponse;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TransactionResponse extends AbstractResponse {

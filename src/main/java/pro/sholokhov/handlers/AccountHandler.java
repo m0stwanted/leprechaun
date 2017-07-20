@@ -2,6 +2,7 @@ package pro.sholokhov.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pro.sholokhov.models.domain.Account;
 import pro.sholokhov.models.response.AccountResponse;
+import pro.sholokhov.models.response.TransactionListResponse;
 import pro.sholokhov.services.AccountService;
 import ratpack.exec.Promise;
 import ratpack.handling.Context;
@@ -17,6 +19,7 @@ import ratpack.handling.Handler;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
@@ -25,7 +28,6 @@ import static ratpack.jackson.Jackson.json;
 @Singleton
 public class AccountHandler implements Handler {
 
-  private final static Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
   private final static ObjectMapper mapper = new ObjectMapper();
   private final static ObjectReader parser = mapper.readerFor(Map.class);
 
@@ -51,11 +53,18 @@ public class AccountHandler implements Handler {
       })
       .get(() -> {
         withAccountId(context, (accId) -> {
-          AccountResponse response = accountService.findById(accId)
-            .filter(Account::isActive)
-            .map(a -> new AccountResponse(a, true, "Ok"))
-            .orElse(accountNotExists);
-          context.render(json(response));
+          Optional<Account> opt = accountService.findById(accId).filter(Account::isActive);
+          opt.ifPresent(account -> {
+            if (context.getPathBinding().getBoundTo().endsWith("transactions")) {
+              context.render(json(new TransactionListResponse(account.getRelatedTransactions(), true, "Ok")));
+            } else {
+              context.render(json(new AccountResponse(account, true, "Ok")));
+            }
+          });
+
+          if (!opt.isPresent()) {
+            context.render(json(accountNotExists));
+          }
         });
       })
       .delete(() -> {

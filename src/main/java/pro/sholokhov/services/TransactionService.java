@@ -15,6 +15,4 @@ public interface TransactionService {
 
   Optional<Transaction> findById(Long transactionId);
 
-  Optional<List<Transaction>> filter();
-
 }

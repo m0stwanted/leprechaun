@@ -3,6 +3,7 @@ package pro.sholokhov.models.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigDecimal;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -14,6 +15,9 @@ public class Account {
   private AtomicReference<BigDecimal> balance;
 
   @JsonIgnore
+  private CopyOnWriteArrayList<Transaction> relatedTransactions;
+
+  @JsonIgnore
   private final Object mutex = new Object();
 
   public Account(Long id, String name, Double balance) {
@@ -21,6 +25,7 @@ public class Account {
     this.name = name;
     this.active = new AtomicBoolean(true);
     this.balance = new AtomicReference<>(BigDecimal.valueOf(balance));
+    this.relatedTransactions = new CopyOnWriteArrayList<>();
   }
 
   // getters
@@ -42,6 +47,10 @@ public class Account {
     return active.get();
   }
 
+  public CopyOnWriteArrayList<Transaction> getRelatedTransactions() {
+    return relatedTransactions;
+  }
+
   public Object getMutex() {
     return mutex;
   }
@@ -54,6 +63,10 @@ public class Account {
 
   public void updateBalance(BigDecimal amount) {
     balance.updateAndGet(b -> b.add(amount));
+  }
+
+  public void addTransaction(Transaction t) {
+    relatedTransactions.add(t);
   }
 
 }

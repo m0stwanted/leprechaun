@@ -1,4 +1,4 @@
-package pro.sholokhov.server.response;
+package pro.sholokhov.models.response;
 
 public abstract class AbstractResponse {
 

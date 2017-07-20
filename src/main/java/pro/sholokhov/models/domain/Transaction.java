@@ -1,5 +1,8 @@
 package pro.sholokhov.models.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import pro.sholokhov.utils.CustomLocalDTSerializer;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -9,6 +12,8 @@ public class Transaction {
   private Long from;
   private Long to;
   private BigDecimal amount;
+
+  @JsonSerialize(using = CustomLocalDTSerializer.class)
   private LocalDateTime dateTime;
 
   public Transaction(Long id, Long from, Long to, Double amount) {
