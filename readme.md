@@ -2,7 +2,9 @@
 
 ## About
 
-<img align="center" src="https://www.iconfinder.com/icons/1953329/download/png/128" alt="Leprechaun logo"/>
+<p align="center">
+    <img src="https://www.iconfinder.com/icons/1953329/download/png/128" alt="Leprechaun logo"/>
+</p>
 
 This project is money transfer application among internal users written as a test assignment.
 
