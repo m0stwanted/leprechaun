@@ -19,14 +19,12 @@ public class Configuration {
     defaults.setProperty(Names.PORT.val(), "5070");
     defaults.setProperty(Names.ADDRESS.val(), "localhost");
     defaults.setProperty(Names.API_PREFIX.val(), "api/v1");
-    defaults.setProperty(Names.MAX_CACHE_SIZE.val(), "10000");
   }
 
   public enum Names {
     PORT("server.port"),
     ADDRESS("server.address"),
-    API_PREFIX("api.prefix"),
-    MAX_CACHE_SIZE("cache.maxsize");
+    API_PREFIX("api.prefix");
 
     private String value;
 

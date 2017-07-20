@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-java -jar target/leprecon-server.jar
+java -jar target/leprechaun-server.jar
