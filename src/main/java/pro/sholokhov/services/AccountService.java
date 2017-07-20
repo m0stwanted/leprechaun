@@ -1,7 +1,7 @@
 package pro.sholokhov.services;
 
 import com.google.inject.ImplementedBy;
-import pro.sholokhov.models.Account;
+import pro.sholokhov.models.domain.Account;
 import pro.sholokhov.services.impl.AccountServiceImpl;
 import ratpack.exec.Promise;
 

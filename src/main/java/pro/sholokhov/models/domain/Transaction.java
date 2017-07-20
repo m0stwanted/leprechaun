@@ -1,4 +1,4 @@
-package pro.sholokhov.models;
+package pro.sholokhov.models.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,6 +1,5 @@
 package pro.sholokhov.handlers;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.google.inject.Inject;
@@ -9,8 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pro.sholokhov.models.Account;
-import pro.sholokhov.server.response.AbstractResponse;
+import pro.sholokhov.models.domain.Account;
+import pro.sholokhov.models.response.AccountResponse;
 import pro.sholokhov.services.AccountService;
 import ratpack.exec.Promise;
 import ratpack.handling.Context;
@@ -97,28 +96,6 @@ public class AccountHandler implements Handler {
     } else {
       ctx.render(json(new AccountResponse(false, "Invalid accountId: " + accountId)));
     }
-  }
-
-  //  simple response class which contains account request results
-  //
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  static class AccountResponse extends AbstractResponse {
-
-    private Account account;
-
-    AccountResponse(Account account, Boolean success, String message) {
-      super(success, message);
-      this.account = account;
-    }
-
-    AccountResponse(Boolean success, String message) {
-      super(success, message);
-    }
-
-    public Account getAccount() {
-      return account;
-    }
-
   }
 
 }

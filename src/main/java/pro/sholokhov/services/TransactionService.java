@@ -1,7 +1,7 @@
 package pro.sholokhov.services;
 
 import com.google.inject.ImplementedBy;
-import pro.sholokhov.models.Transaction;
+import pro.sholokhov.models.domain.Transaction;
 import pro.sholokhov.services.impl.TransactionServiceImpl;
 import ratpack.exec.Promise;
 

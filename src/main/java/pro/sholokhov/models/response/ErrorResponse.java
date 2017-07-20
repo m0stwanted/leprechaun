@@ -1,4 +1,4 @@
-package pro.sholokhov.models;
+package pro.sholokhov.models.response;
 
 import pro.sholokhov.handlers.ErrorHandler;
 

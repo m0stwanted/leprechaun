@@ -1,6 +1,5 @@
 package pro.sholokhov.handlers;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.google.inject.Inject;
@@ -8,8 +7,8 @@ import com.google.inject.Singleton;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pro.sholokhov.models.Transaction;
-import pro.sholokhov.server.response.AbstractResponse;
+import pro.sholokhov.models.domain.Transaction;
+import pro.sholokhov.models.response.TransactionResponse;
 import pro.sholokhov.services.AccountService;
 import pro.sholokhov.services.TransactionService;
 import ratpack.exec.Promise;
@@ -60,7 +59,6 @@ public class TransactionHandler implements Handler {
       .get(() -> {
         withTransactionId(context, (trId) -> {
           TransactionResponse response = transactionService.findById(trId)
-            .map(this::enrichTransaction)
             .map(t -> new TransactionResponse(t, true, "Ok"))
             .orElse(transactionNotExists);
           context.render(json(response));
@@ -96,11 +94,6 @@ public class TransactionHandler implements Handler {
     }
   }
 
-  private Transaction enrichTransaction(Transaction t) {
-    // todo: think about this
-    return t;
-  }
-
   // parse and validate parameters for transaction creation
   //
   private Map<String, String> parseParams(String from, String to, String amount) throws IllegalArgumentException {
@@ -125,28 +118,6 @@ public class TransactionHandler implements Handler {
     } else throw new IllegalArgumentException("Invalid value of <amount> field.");
 
     return params;
-  }
-
-  //  simple response class which contains transaction request results
-  //
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  static class TransactionResponse extends AbstractResponse {
-
-    private Transaction transaction;
-
-    TransactionResponse(Transaction transaction, Boolean success, String message) {
-      super(success, message);
-      this.transaction = transaction;
-    }
-
-    TransactionResponse(Boolean success, String message) {
-      super(success, message);
-    }
-
-    public Transaction getTransaction() {
-      return transaction;
-    }
-
   }
 
 }

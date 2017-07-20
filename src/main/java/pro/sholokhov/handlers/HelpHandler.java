@@ -52,4 +52,5 @@ public class HelpHandler implements Handler, Service {
   public void handle(Context ctx) throws Exception {
     ctx.getResponse().sendFile(path);
   }
+
 }

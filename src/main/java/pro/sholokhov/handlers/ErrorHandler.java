@@ -5,7 +5,7 @@ import static ratpack.jackson.Jackson.json;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pro.sholokhov.models.ErrorResponse;
+import pro.sholokhov.models.response.ErrorResponse;
 import pro.sholokhov.server.exceptions.ResourceNotFoundException;
 import ratpack.error.ServerErrorHandler;
 import ratpack.handling.Context;

@@ -1,4 +1,4 @@
-package pro.sholokhov.models;
+package pro.sholokhov.models.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

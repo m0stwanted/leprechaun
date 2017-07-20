@@ -1,7 +1,7 @@
 package pro.sholokhov.services.impl;
 
 import com.google.inject.Singleton;
-import pro.sholokhov.models.Account;
+import pro.sholokhov.models.domain.Account;
 import pro.sholokhov.services.AccountService;
 import pro.sholokhov.storage.KVStorage;
 import pro.sholokhov.storage.impl.InMemoryStorage;

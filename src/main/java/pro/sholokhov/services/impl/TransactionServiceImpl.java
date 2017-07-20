@@ -2,8 +2,8 @@ package pro.sholokhov.services.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import pro.sholokhov.models.Account;
-import pro.sholokhov.models.Transaction;
+import pro.sholokhov.models.domain.Account;
+import pro.sholokhov.models.domain.Transaction;
 import pro.sholokhov.services.AccountService;
 import pro.sholokhov.services.TransactionService;
 import pro.sholokhov.storage.KVStorage;
@@ -40,6 +40,16 @@ public class TransactionServiceImpl implements TransactionService {
     });
   }
 
+  @Override
+  public Optional<Transaction> findById(Long transactionId) {
+    return storage.get(transactionId);
+  }
+
+  @Override
+  public Optional<List<Transaction>> filter() {
+    return Optional.empty();
+  }
+
   private Transaction doTransfer(Account from, Account to, Double amount) throws IllegalStateException  {
     BigDecimal charge = new BigDecimal(amount);
     if (from.getBalance().subtract(charge).compareTo(BigDecimal.ZERO) >= 0) {
@@ -58,16 +68,6 @@ public class TransactionServiceImpl implements TransactionService {
     } else {
       throw new IllegalStateException("Not enough money.");
     }
-  }
-
-  @Override
-  public Optional<Transaction> findById(Long transactionId) {
-    return storage.get(transactionId);
-  }
-
-  @Override
-  public Optional<List<Transaction>> filter() {
-    return Optional.empty();
   }
 
 }
