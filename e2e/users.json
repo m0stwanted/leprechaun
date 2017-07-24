@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Tony Stark",
+    "balance": "999350.99"
+  },
+  {
+    "name": "Anakin Skywalker",
+    "balance": "12000.50"
+  },
+  {
+    "name": "Daenerys Stormborn",
+    "balance": "4500.23"
+  },
+  {
+    "name": "Marty Mcfly",
+    "balance": "80400.60"
+  },
+  {
+    "name": "Jesse Pinkman",
+    "balance": "50.00"
+  },
+  {
+    "name": "invalid",
+    "balance": "123hello.99"
+  },
+  {
+    "name": "",
+    "balance": "500.3"
+  }
+]

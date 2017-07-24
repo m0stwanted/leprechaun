@@ -49,7 +49,9 @@ public class AccountHandler implements Handler {
     context.byMethod(r -> r
       .post(() -> {
         withNameAndBalance(context, (name, balance) -> accountService.create(name, balance))
-          .then(a -> context.render(json(new AccountResponse(a, true, "Account created"))));
+          .onError(e -> context.render(json(new AccountResponse(false, e.getMessage()))))
+          .map(a -> new AccountResponse(a, true, "Account created"))
+          .then(a -> context.render(json(a)));
       })
       .get(() -> {
         withAccountId(context, (accId) -> {
@@ -91,9 +93,7 @@ public class AccountHandler implements Handler {
       if (StringUtils.isNotEmpty(name) && NumberUtils.isCreatable(balance)) {
         return onArgValid.apply(name, Double.valueOf(balance));
       } else {
-        Exception e = new IllegalArgumentException("Invalid name or balance!");
-        ctx.render(json(new AccountResponse(false, e.getMessage())));
-        return Promise.error(e);
+        return Promise.error(new IllegalArgumentException("Invalid name or balance!"));
       }
     });
   }

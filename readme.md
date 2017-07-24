@@ -6,11 +6,11 @@
     <img src="https://www.iconfinder.com/icons/1953329/download/png/128" alt="Leprechaun logo"/>
 </p>
 
-This project is money transfer application among internal users written as a test assignment.
+This project is an application for transferring money between internal users. It was written as a test assignment.
 
 ## Installation and Launching
 
-This application is a rather simple application of [Ratpack](https://ratpack.io/) Java Framework which produces
+This application is rather a simple application of [Rat Pack](https://ratpack.io/) Java Framework which produces
 just one fat-jar. To install it from sources you just have to clone the stable version from the
 repository and build it with `build.sh` script (Maven should be installed).
 
@@ -18,8 +18,14 @@ Maven build script will generate fat jar file named `leprechaun-server.jar` whic
 
     java -jar target/leprechaun-server.jar
 	
-The default port is `5060`. You may also customize ports, host, cache size and API prefix by editing
-`app.properties` before compilation. File based configuration isn't supported at the time.
+The default port is `5060`. You may also customize port, host and API prefix by editing
+`app.properties` before compilation. File-based configuration isn't supported at the time.
+
+## Testing
+
+Folder `e2e` contains end-to-end test for API written in Python (so Python is required). Test can be run 
+in two ways - via Maven profile `e2e-test` or manually. In both cases you should start application *before* 
+executing test. Also, if you want to run test several times, you should restart server before every new execution.
 
 ## Usage
 

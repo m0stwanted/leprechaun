@@ -1,1 +1,0 @@
-This directory contains integration tests for leprechaun application.

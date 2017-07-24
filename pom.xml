@@ -134,4 +134,36 @@
     </plugins>
   </build>
 
+  <profiles>
+    <profile>
+      <id>e2e-test</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>python-test</id>
+                <phase>test</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <arguments>
+                    <argument>e2e-test.py</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration>
+              <executable>/usr/bin/python</executable>
+              <workingDirectory>e2e</workingDirectory>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
 </project>
