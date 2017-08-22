@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import pro.sholokhov.models.domain.Account;
 import pro.sholokhov.models.domain.Transaction;
+import pro.sholokhov.models.exceptions.InactiveAccountException;
+import pro.sholokhov.models.exceptions.NotEnoughMoneyException;
 import pro.sholokhov.services.AccountService;
 import pro.sholokhov.services.TransactionService;
 import pro.sholokhov.storage.KVStorage;
@@ -35,7 +37,15 @@ public class TransactionServiceImpl implements TransactionService {
   public Promise<Transaction> create(Long from, Long to, Double amount) throws IllegalStateException {
     return Blocking.get(() -> {
       Account fromAcc = accountService.findById(from).orElseThrow(() -> inconsistency);
+      if (!fromAcc.isActive()) {
+        throw new InactiveAccountException("Sender account is not active!");
+      }
+
       Account toAcc = accountService.findById(to).orElseThrow(() -> inconsistency);
+      if (!toAcc.isActive()) {
+        throw new InactiveAccountException("Receiver account is not active!");
+      }
+
       return doTransfer(fromAcc, toAcc, amount);
     });
   }
@@ -61,11 +71,11 @@ public class TransactionServiceImpl implements TransactionService {
           storage.put(tid, t);
           return t;
         } else {
-          throw new IllegalStateException("Not enough money.");
+          throw new NotEnoughMoneyException();
         }
       }
     } else {
-      throw new IllegalStateException("Not enough money.");
+      throw new NotEnoughMoneyException();
     }
   }
 

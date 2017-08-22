@@ -1,14 +1,13 @@
 package pro.sholokhov.handlers;
 
+import static ratpack.jackson.Jackson.json;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import pro.sholokhov.models.domain.Account;
 import pro.sholokhov.models.response.AccountResponse;
 import pro.sholokhov.models.response.TransactionListResponse;
@@ -17,13 +16,10 @@ import ratpack.exec.Promise;
 import ratpack.handling.Context;
 import ratpack.handling.Handler;
 
-import java.lang.invoke.MethodHandles;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-
-import static ratpack.jackson.Jackson.json;
 
 @Singleton
 public class AccountHandler implements Handler {
