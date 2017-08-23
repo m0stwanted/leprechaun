@@ -8,6 +8,10 @@ public class TransactionListResponse extends AbstractResponse {
 
     private List<Transaction> transactions;
 
+    public TransactionListResponse() {
+
+    }
+
     public TransactionListResponse(List<Transaction> transactions, Boolean success, String message) {
         super(success, message);
         this.transactions = transactions;
@@ -19,6 +23,10 @@ public class TransactionListResponse extends AbstractResponse {
 
     public List<Transaction> getTransactions() {
         return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
 }

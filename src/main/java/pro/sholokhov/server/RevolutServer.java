@@ -23,12 +23,12 @@ import java.util.Properties;
  */
 public class RevolutServer {
 
-  public RatpackServer start() throws Exception {
+  public RatpackServer start(String customPort) throws Exception {
     Properties config = Configuration.loadConfig();
     return RatpackServer.start(server -> server
         .serverConfig(serverConfigBuilder -> serverConfigBuilder
             .props(ImmutableMap.of(
-                PORT.val(), config.getProperty(PORT.val()),
+                PORT.val(), customPort != null ? customPort : config.getProperty(PORT.val()),
                 ADDRESS.val(), config.getProperty(ADDRESS.val())))
         )
         .registry(Guice.registry(bindings -> bindings
