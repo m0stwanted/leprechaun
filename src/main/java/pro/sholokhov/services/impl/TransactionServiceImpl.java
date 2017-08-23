@@ -71,11 +71,11 @@ public class TransactionServiceImpl implements TransactionService {
           storage.put(tid, t);
           return t;
         } else {
-          throw new NotEnoughMoneyException();
+          throw new NotEnoughMoneyException("Transfer failed: not enough money.");
         }
       }
     } else {
-      throw new NotEnoughMoneyException();
+      throw new NotEnoughMoneyException("Transfer failed: not enough money.");
     }
   }
 

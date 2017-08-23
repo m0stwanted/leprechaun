@@ -20,6 +20,10 @@ public class Account {
   @JsonIgnore
   private final Object mutex = new Object();
 
+  public Account() {
+    // jackson specific
+  }
+
   public Account(Long id, String name, Double balance) {
     this.id = id;
     this.name = name;

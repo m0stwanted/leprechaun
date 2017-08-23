@@ -51,7 +51,7 @@ for tr in tr_map:
     response = requests.post(TRANS_URL, json = {"from": snd, "to": rcv, "amount": amn})
     answer = response.json()
 
-    if answer["message"] == "Not enough money.":
+    if answer["message"] == "Transfer failed: not enough money.":
         # check that it is a correct exception
         account = requests.get(ACC_URL + "/" + snd).json()
         assert float(account["account"]["balance"]) - famn < 0, "Invalid 'Not enough money' exception: " + account
